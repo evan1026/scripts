@@ -1,0 +1,19 @@
+#!/bin/bash
+
+. ~/.scripts/git-sh-prompt
+
+DIRNAMETHING=$(echo $(cd "$(__gitdir)/.."; pwd) | tr / \\n | tail -1)
+
+if [[ -n $DIRNAMETHING ]]; then
+    if [[ -z $(cat ~/git/.autoUpdateIgnore | egrep "\b$DIRNAMETHING\b") ]]; then
+        echo $DIRNAMETHING >> ~/git/.autoUpdateIgnore
+        echo -e "\033[36mAdded $DIRNAMETHING to the git update ignore list.\033[m"
+        exit 0
+    else
+        echo -e "\033[31mERROR: This repository is already being ignored.\033[m"
+        exit 1
+    fi
+else
+    echo -e "\033[31mERROR: Not within a git repository.\033[m"
+    exit 2
+fi

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ -z $(tmux ls | grep "^${1}:") ]]; then
+    tmux new -s ${1}
+else
+    tmux at -t ${1}
+fi
+

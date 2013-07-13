@@ -1,0 +1,21 @@
+#!/bin/bash
+
+. ~/.scripts/git-sh-prompt
+
+cd ~/git
+
+for FILE in `ls`; do
+    if [ -d $FILE ]; then
+        cd $FILE
+
+        GITSTATUS=$(git status 2>/dev/null)
+
+        if [[ "$GITSTATUS" != *"nothing to commit, working directory clean" ]] || 
+           [[ "$GITSTATUS" = *"Your branch is behind"* ]]                      || 
+           [[ "$GITSTATUS" = *"Your branch is ahead"* ]];                      then
+                echo -e "\e[36m$FILE\e[m needs some attention."
+        fi
+       
+        cd ..
+    fi
+done

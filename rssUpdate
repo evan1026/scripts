@@ -1,0 +1,4 @@
+#!/bin/bash
+
+php /var/website/www/rss/update.php --force-update
+php /var/website/www/rss/update.php --feeds

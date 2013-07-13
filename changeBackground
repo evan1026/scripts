@@ -1,0 +1,5 @@
+#!/bin/bash
+
+DIRECTORY="/home/evan1026/Pictures/wallpapers/thechoices/"
+THEFILE=$(ls $DIRECTORY |sort -R |tail -n 1)
+hsetroot -fill $DIRECTORY$THEFILE

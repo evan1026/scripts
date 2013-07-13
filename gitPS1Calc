@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#([[ $(git status 2>/dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "\[\033[01;31m\]")$(__git_ps1)$([[ $(git status 2>/dev/null) = *behind* ]] && echo " \[\033[01;31m\]*behind*") \n\[\033[00m\]\$
+
+. ~/.scripts/git-sh-prompt
+
+GITCOLOR=""
+GITSTATUS=$(git status 2>/dev/null)
+
+if [ $? -eq 0 ] && [[ "$GITSTATUS" != *"nothing to commit, working directory clean" ]]; then
+    GITCOLOR="\e[01;31m"
+fi
+
+OUTPUT="$(__git_ps1) "
+
+BRANCHSTATUS=""
+BRANCHCOLOR=""
+if [[ "$GITSTATUS" = *"Your branch is behind"* ]]; then
+    BRANCHCOLOR="\e[01;31m"
+    BRANCHSTATUS="*behind*"
+elif [[ "$GITSTATUS" = *"Your branch is ahead"* ]]; then
+    BRANCHCOLOR="\e[01;31m"
+    BRANCHSTATUS="*ahead*"
+fi
+
+printf "$GITCOLOR%s $BRANCHCOLOR%s \e[m" $OUTPUT $BRANCHSTATUS

@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ -z "$1" ]; then 
+	echo "Usage: `basename $0` <pattern>"
+	exit 1
+fi
+
+cat $1 | sed -r "/^\s*\}*\s*$/d" | wc -l
+
+exit 0

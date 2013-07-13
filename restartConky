@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ps ux | grep conky | egrep -o "evan1026\s+[0-9]+" | sed -r "s/evan1026\s+//g" | sed "2d" | xargs kill
+conky -q
