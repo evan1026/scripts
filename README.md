@@ -23,7 +23,7 @@ Usage/info
 
 `gitAddUpdateIgnore`: Ok this requires an explaination of the whole system: The script `gitRemotesUpdate` pushes to a specified remote in all git repositories (I link to them all in one folder, so it's easy to do that). Unfortunately, for the remote "origin", there are many repos I can't push to. So I created a list of repos to ignore if the -i option is set for any call to `gitRemotesUpdate`, just to limit the amount of error messages and wasted time. This script adds the current repo (if you're in one) to that list.
 
-`gitCheck`: Uses `git status` to determine which repos need to be looked at (uncommitted changes or behind/ahead branches) and writes their names to the console. It's limited in what it can find that way, so I hope to expand its usefulness later.
+`gitCheck`: Finds repos that are either behind or ahead of their remotes or have uncommitted changes and reports that status to the console. There's a screenshot of it below.
 
 `gitHDDUpdate`: Actually more of an alias. I have a hard drive that has backups of all of my git repos, and I always name the remote for them "hdd". This goes through and pushes all of them to the hard drive.
 
@@ -49,3 +49,6 @@ Usage/info
 ======
 
 Feel free to contact me or whatever about anything with this, especially if you know bash well enough to improve these, since I realize I am not the best at it.
+
+Here's a cool screenshot of `gitCheck` in action:
+![gitCheck doin it's shiz](https://dl.dropboxusercontent.com/u/16835571/Pictures/2013-07-14-025201_397x139_scrot.png)

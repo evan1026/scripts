@@ -10,11 +10,20 @@ for FILE in `ls`; do
 
         GITSTATUS=$(git status 2>/dev/null)
 
-        if [[ "$GITSTATUS" != *"nothing to commit, working directory clean" ]] || 
-           [[ "$GITSTATUS" = *"Your branch is behind"* ]]                      || 
-           [[ "$GITSTATUS" = *"Your branch is ahead"* ]];                      then
-                echo -e "\e[36m$FILE\e[m needs some attention."
+        if [[ "$GITSTATUS" != *"nothing to commit, working directory clean" ]]; then
+                echo -e "\e[36m$FILE\e[m has \e[31muncommitted changes\e[m."
         fi
+
+        for REMOTE in `git remote`; do
+            for BRANCH in `git branch | sed s/"*"//g`; do
+                if [[ -n $(git log $REMOTE/$BRANCH..$BRANCH) ]]; then
+                    echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be pushed to \e[31m$REMOTE\e[m."
+                fi
+                if [[ -n $(git log $BRANCH..$REMOTE/$BRANCH) ]]; then
+                    echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be pulled from \e[31m$REMOTE\e[m."
+                fi
+            done
+        done
        
         cd ..
     fi
