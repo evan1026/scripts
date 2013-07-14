@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#([[ $(git status 2>/dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "\[\033[01;31m\]")$(__git_ps1)$([[ $(git status 2>/dev/null) = *behind* ]] && echo " \[\033[01;31m\]*behind*") \n\[\033[00m\]\$
-
 . ~/.scripts/git-sh-prompt
 
 GITCOLOR=""

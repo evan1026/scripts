@@ -23,9 +23,9 @@ for FILE in `ls`; do
                     echo "Fetching remote $REMOTE in $FILE."
                     OUTPUT=$(git fetch $REMOTE 2>&1)
                     if [ $? -ne 0 ]; then
-                        echo -e "\033[31m    ERROR: Fetching of $REMOTE in $FILE failed.\033[m"
+                        echo -e "\e[31m    ERROR: Fetching of $REMOTE in $FILE failed.\e[m"
                     elif [[ $OUTPUT = *"->"*  ]]; then
-                        echo -e "\033[36m    Fetched from $REMOTE in $FILE.\033[m"
+                        echo -e "\e[36m    Fetched from $REMOTE in $FILE.\e[m"
                     fi
                 done
             fi

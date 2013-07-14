@@ -32,10 +32,10 @@ for FILE in `ls`; do
                 if [ $QUIET -eq 0 ]; then echo "Pushing branch $BRANCH in $FILE."; fi
                 OUTPUT=$(git push $REMOTE $BRANCH  2>&1)
                 if [ $? -ne 0 ]; then
-                    if [ $QUIET -eq 0 ]; then echo -e "\033[31m    ERROR: Pushing of $BRANCH in $FILE to $REMOTE failed.\033[37m"; fi
+                    if [ $QUIET -eq 0 ]; then echo -e "\e[31m    ERROR: Pushing of $BRANCH in $FILE to $REMOTE failed.\e[m"; fi
                 fi
                 if [[ $OUTPUT = *"->"* ]]; then
-                    if [ $QUIET -eq 0 ]; then echo -e "\033[36m    Pushed $BRANCH in $FILE to $REMOTE.\033[m"; fi
+                    if [ $QUIET -eq 0 ]; then echo -e "\e[36m    Pushed $BRANCH in $FILE to $REMOTE.\e[m"; fi
                 fi
             done
         fi
