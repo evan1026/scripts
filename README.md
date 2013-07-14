@@ -51,4 +51,5 @@ Usage/info
 Feel free to contact me or whatever about anything with this, especially if you know bash well enough to improve these, since I realize I am not the best at it.
 
 Here's a cool screenshot of `gitCheck` in action:
+
 ![gitCheck doin it's shiz](https://dl.dropboxusercontent.com/u/16835571/Pictures/2013-07-14-025201_397x139_scrot.png)
