@@ -4,6 +4,6 @@ if [ -z "$1" ]; then
 	exit 1
 fi
 
-cat $1 | sed -r "/^\s*\}*\s*$/d" | wc -l
+cat $1 | sed -r "/^\s*\{*\}*\s*$/d" | wc -l
 
 exit 0
