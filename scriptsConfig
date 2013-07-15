@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#Leave blank to use normal password authentication
+RSAKEYLOC="$HOME/.ssh/id_rsa"
+
+#Directory that has all git repositories, whether as links or whatever.
+GITDIR="$HOME/git"
+
+#Location to put all possible wallpaper selections
+WALLPAPERSDIR="$HOME/Pictures/wallpapers/thechoices"
+
+#Location to download 4chan pictures to
+CHANPICTUREDIR="$HOME/Pictures/4chan"
+
+#Location of the tt-rss installation
+TTRSSDIR="/var/website/www/rss"
+

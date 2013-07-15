@@ -1,9 +1,11 @@
 #!/bin/bash
 
+. $(dirname $0)/scriptsConfig
+
 QUIET=0
 REMOTE=""
 DOIGNORE=0
-IGNORES=$(cat ~/git/.autoUpdateIgnore)
+IGNORES=""
 for ARG in $@; do
     if [[ $ARG = "-q" ]] || [[ $ARG = "--quiet" ]]; then
         QUIET=1
@@ -15,17 +17,24 @@ for ARG in $@; do
         echo "Usage: $0 [-qi] REMOTE"
         exit 1
     fi
-    
 done
 
-if [[ $REMOTE = "origin" ]] && [[ $(ssh-add -l) != *"/home/evan1026/.ssh/id_rsa"* ]]; then
+if [ $DOIGNORE -eq 1 ]; then
+    if [[ -e $GITDIR/.autoUpdateIgnore ]]; then
+        IGNORES=$(cat $GITDIR/.autoUpdateIgnore)
+    else
+        echo -e "\e[31mERROR: Ignore option set, but ignores file does not exist. Continuing without ignoring any repos.\e[m"
+    fi
+fi
+
+if [[ -n $RSAKEYLOC ]] && [[ $(ssh-add -l) != *"$RSAKEYLOC"* ]]; then
     ssh-add
 fi
 
-cd ~/git
+cd $GITDIR
 
 for FILE in `ls`; do
-    if [ -d $FILE ] && ( [ $DOIGNORE -eq 0 ] || [[ -z $(echo $IGNORES | egrep "\b$FILE\b") ]] ); then
+    if [ -d $FILE ] && [[ -z $(echo $IGNORES | egrep "\b$FILE\b") ]]; then
         cd $FILE
         if [ -e '.git' ] && [[ $(git remote) = *"$REMOTE"* ]]; then
             for BRANCH in `git branch | sed s/"*"//g`; do
@@ -34,7 +43,7 @@ for FILE in `ls`; do
                 if [ $? -ne 0 ]; then
                     if [ $QUIET -eq 0 ]; then echo -e "\e[31m    ERROR: Pushing of $BRANCH in $FILE to $REMOTE failed.\e[m"; fi
                 fi
-                if [[ $OUTPUT = *"->"* ]]; then
+                if [[ $OUTPUT = *"->"* ]] && [[ $OUTPUT != *"[rejected]"* ]]; then
                     if [ $QUIET -eq 0 ]; then echo -e "\e[36m    Pushed $BRANCH in $FILE to $REMOTE.\e[m"; fi
                 fi
             done

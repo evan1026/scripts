@@ -1,8 +1,9 @@
 #!/bin/bash
 
-. ~/.scripts/git-sh-prompt
+. $(dirname $0)/git-sh-prompt
+. $(dirname $0)/scriptsConfig
 
-cd ~/git
+cd $GITDIR
 
 for FILE in `ls`; do
     if [ -d $FILE ]; then
@@ -20,7 +21,7 @@ for FILE in `ls`; do
                     echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be pushed to \e[31m$REMOTE\e[m."
                 fi
                 if [[ -n $(git log $BRANCH..$REMOTE/$BRANCH) ]]; then
-                    echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be pulled from \e[31m$REMOTE\e[m."
+                    echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be merged from \e[31m$REMOTE\e[m."
                 fi
             done
         done

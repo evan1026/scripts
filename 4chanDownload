@@ -5,16 +5,19 @@ if [ "$1" = "" ]; then
 	exit 1
 fi
 
+. $(dirname $0)/scriptsConfig
+
+
 echo "4chan downloader"
 echo "Downloading until canceled or 404'd"
 LOC=$(echo "$1" | egrep -o '([0-9]*)$' )
-echo "Downloading to ~/Pictures/4chan/$LOC"
+echo "Downloading to $CHANPICTUREDIR/$LOC"
 
-if [ ! -d ~/Pictures/4chan/$LOC ]; then
-	mkdir ~/Pictures/4chan/$LOC
+if [ ! -d $CHANPICTUREDIR/$LOC ]; then
+	mkdir $CHANPICTUREDIR/$LOC
 fi
 
-cd ~/Pictures/4chan/$LOC
+cd $CHANPICTUREDIR/$LOC
 
 while [ "1" = "1" ]; do
 	TMP=`mktemp`

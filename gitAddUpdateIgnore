@@ -1,13 +1,15 @@
 #!/bin/bash
 
-. ~/.scripts/git-sh-prompt
+. $(dirname $0)/git-sh-prompt
+. $(dirname $0)/scriptsConfig
 
-DIRNAMETHING=$(echo $(cd "$(__gitdir)/.."; pwd) | tr / \\n | tail -1)
+REPODIR=$(echo $(cd "$(__gitdir)/.."; pwd) | tr / \\n | tail -1)
 
-if [[ -n $DIRNAMETHING ]]; then
-    if [[ -z $(cat ~/git/.autoUpdateIgnore | egrep "\b$DIRNAMETHING\b") ]]; then
-        echo $DIRNAMETHING >> ~/git/.autoUpdateIgnore
-        echo -e "\e[36mAdded $DIRNAMETHING to the git update ignore list.\e[m"
+if [[ -n $REPODIR ]]; then
+    if [[ ! -e $GITDIR/.autoUpdateIgnore ]]; then touch $GITDIR/.autoUpdateIgnore; fi
+    if [[ -z $(cat $GITDIR/.autoUpdateIgnore | egrep "\b$REPODIR\b") ]]; then
+        echo $REPODIR >> $GITDIR/.autoUpdateIgnore
+        echo -e "\e[36mAdded $REPODIR to the git update ignore list.\e[m"
         exit 0
     else
         echo -e "\e[31mERROR: This repository is already being ignored.\e[m"

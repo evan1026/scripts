@@ -1,4 +1,6 @@
 #!/bin/bash
 
-php /var/website/www/rss/update.php --force-update
-php /var/website/www/rss/update.php --feeds
+. $(dirname $0)/scriptsConfig
+
+php $TTRSSDIR/update.php --force-update
+php $TTRSSDIR/update.php --feeds

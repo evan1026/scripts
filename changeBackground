@@ -1,5 +1,6 @@
 #!/bin/bash
 
-DIRECTORY="/home/evan1026/Pictures/wallpapers/thechoices/"
-THEFILE=$(ls $DIRECTORY |sort -R |tail -n 1)
-hsetroot -fill $DIRECTORY$THEFILE
+. $(dirname $0)/scriptsConfig
+
+THEFILE=$(ls $WALLPAPERSDIR |sort -R |tail -n 1)
+hsetroot -fill $WALLPAPERSDIR/$THEFILE

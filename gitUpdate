@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. $(dirname $0)/scriptsConfig
+
 QUIET=0
 for ARG in $@; do
     if [[ $ARG = "-q" ]] || [[ $ARG = "-quiet" ]]; then
@@ -7,19 +9,19 @@ for ARG in $@; do
     fi  
 done
 
-cd ~/git
+cd $GITDIR
 
 for FILE in `ls`; do
     if [ -d $FILE ]; then
         cd $FILE
         if [ -e '.git' ]; then
+            if [[ -n $RSAKEYLOC ]] && [[ $(ssh-add -l) != *"$HOME/.ssh/id_rsa"* ]]; then
+                ssh-add
+            fi
             if [ $QUIET -eq 1 ]; then
                 git fetch --all --quiet 2>/dev/null
             else
                 for REMOTE in `git remote`; do
-                    if [[ $REMOTE = "origin" ]] && [[ $(ssh-add -l) != *"/home/evan1026/.ssh/id_rsa"* ]]; then
-                        ssh-add
-                    fi
                     echo "Fetching remote $REMOTE in $FILE."
                     OUTPUT=$(git fetch $REMOTE 2>&1)
                     if [ $? -ne 0 ]; then
