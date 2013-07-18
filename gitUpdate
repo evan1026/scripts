@@ -3,10 +3,19 @@
 . $(dirname $0)/scriptsConfig
 
 QUIET=0
+NEXTIGNORE=0
+IGNORES=""
 for ARG in $@; do
-    if [[ $ARG = "-q" ]] || [[ $ARG = "-quiet" ]]; then
+    if [ $NEXTIGNORE -eq 1 ]; then
+        IGNORES="$IGNORES $ARG"
+        NEXTIGNORE=0
+    elif [[ $ARG = "-q" ]] || [[ $ARG = "--quiet" ]]; then
         QUIET=1
-    fi  
+    elif [[ $ARG = "-i" ]] || [[ $ARG = "--ignore-remote" ]]; then
+        NEXTIGNORE=1
+    else
+        echo "Usage: $0 [-i remote] [-q]"
+    fi
 done
 
 cd $GITDIR
@@ -22,12 +31,14 @@ for FILE in `ls`; do
                 git fetch --all --quiet 2>/dev/null
             else
                 for REMOTE in `git remote`; do
-                    echo "Fetching remote $REMOTE in $FILE."
-                    OUTPUT=$(git fetch $REMOTE 2>&1)
-                    if [ $? -ne 0 ]; then
-                        echo -e "\e[31m    ERROR: Fetching of $REMOTE in $FILE failed.\e[m"
-                    elif [[ $OUTPUT = *"->"*  ]]; then
-                        echo -e "\e[36m    Fetched from $REMOTE in $FILE.\e[m"
+                    if [[ -z $(echo $IGNORES | egrep "\b$REMOTE\b") ]]; then
+                        echo "Fetching remote $REMOTE in $FILE."
+                        OUTPUT=$(git fetch $REMOTE 2>&1)
+                        if [ $? -ne 0 ]; then
+                            echo -e "\e[31m    ERROR: Fetching of $REMOTE in $FILE failed.\e[m"
+                        elif [[ $OUTPUT = *"->"*  ]]; then
+                            echo -e "\e[36m    Fetched from $REMOTE in $FILE.\e[m"
+                        fi
                     fi
                 done
             fi
