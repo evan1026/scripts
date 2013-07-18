@@ -1,3 +1,4 @@
+## ## ## ## ## ## GitHub highlight hack
 #!/bin/bash
 
 . $(dirname $0)/scriptsConfig
