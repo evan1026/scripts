@@ -8,14 +8,14 @@ Just some scripts I made for myself that I decided to throw up onto this site fo
 For the record, `4chanDownload` was not made by me. I found it on some website and only tweaked it to fix it not working with the new way 4chan saves files.
 `convertomp3` is the same story.
 `git-sh-prompt` is not mine either. It comes with git, and for some reason or other I had to move it here, although it's been so long that I forgot why.
-Other than that, these are all mine, except for some stuff that I grabbed from a forum when I was stumped. Note that since they are mine, they have some personalized stuff to them. If you want it to work for you, it may involve some tweaking. In the future I might change things to make that a bit more convenient, but for now, just deal with it.
+Other than that, these are all mine, except for some stuff that I grabbed from a forum when I was stumped. Note that since they are mine, they have some personalized stuff to them. If you want it to work for you, it may involve some tweaking. Directories can already be changed in the config file, but otherwise do what you need to make it work.
 
 Usage/info
 ======
 
-`4chanDownload <4chan thread url>`: Downloads all of the images in the given thread. Go ahead and change the directory if you don't like it, but I will probably make that an editable variable later.
+`4chanDownload <4chan thread url>`: Downloads all of the images in the given thread. Downloads to the directory specified in the config file.
 
-`changeBackground`: Picks a random image from a given directory as the desktop background.
+`changeBackground`: Picks a random image from the pictures directory as the desktop background.
 
 `convertomp3 <file extension>`: You supply a file extension, it converts all files of that type in the current directory to mp3 files. A bit limiting, I know, but I didn't make it, and when I needed it, that was what I wanted.
 
