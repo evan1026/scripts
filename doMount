@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ "$1" = "" ]; then
+    echo "Usage: `basename $0` <Drive Name>"
+    exit 1
+fi
+
+DRIVE=$(echo $1 | sed 's/ /\\x20/g')
+
+udisks --mount /dev/disk/by-label/$DRIVE

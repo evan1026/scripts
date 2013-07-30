@@ -45,6 +45,10 @@ Usage/info
 
 `tmuxt <tmux session>`: I lied earlier. I didn't make this either; all credit to [Joe](https://github.com/Ginto8). Anyway it attaches to the given session, creating it if it doesn't already exist.
 
+`doMount <drive Name>`: Mounts a drive with the given label to /media/LABEL or /media/USER/LABEL, depending on the setup of your version of linux. Note: this means you can mount without having to know how a drive is referenced (/dev/sda1, /dev/sdc5, etc.), as long as you know the drive's label.
+
+`doUnmount <drive name>`: Same as `doMount`, but it unmounts the drive.
+
 
 ======
 
