@@ -13,5 +13,5 @@ WALLPAPERSDIR="$HOME/Pictures/wallpapers/thechoices"
 CHANPICTUREDIR="$HOME/Pictures/4chan"
 
 #Location of the tt-rss installation
-TTRSSDIR="/var/website/www/rss"
+TTRSSDIR="/var/website/www/ttrss"
 
