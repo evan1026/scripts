@@ -49,6 +49,8 @@ Usage/info
 
 `doUnmount <drive name>`: Same as `doMount`, but it unmounts the drive.
 
+`replaceTabs <file name>`: Replaces the tabs in a specified file with spaces. The number of spaces is specified in the config.
+
 
 ======
 

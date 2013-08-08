@@ -15,3 +15,5 @@ CHANPICTUREDIR="$HOME/Pictures/4chan"
 #Location of the tt-rss installation
 TTRSSDIR="/var/website/www/ttrss"
 
+#Number of spaces to replace tabs with
+TABNUM=4

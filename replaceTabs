@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+    echo "Usage: $0 <file name>"
+    exit 1
+fi
+
+. $(dirname $0)/scriptsConfig
+
+cp $1 $1.bak
+
+expand -t $TABNUM $1.bak > $1
+
+rm $1.bak
