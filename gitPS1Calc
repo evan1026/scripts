@@ -9,16 +9,21 @@ if [ $? -eq 0 ] && [[ "$GITSTATUS" != *"nothing to commit, working directory cle
     GITCOLOR="\e[01;31m"
 fi
 
-OUTPUT="$(__git_ps1) "
+OUTPUT="$(__git_ps1)"
 
 BRANCHSTATUS=""
 BRANCHCOLOR=""
-if [[ "$GITSTATUS" = *"Your branch is behind"* ]]; then
-    BRANCHCOLOR="\e[01;31m"
-    BRANCHSTATUS="*behind*"
-elif [[ "$GITSTATUS" = *"Your branch is ahead"* ]]; then
-    BRANCHCOLOR="\e[01;31m"
-    BRANCHSTATUS="*ahead*"
-fi
+for REMOTE in `git remote 2>/dev/null`; do
+    for BRANCH in `git branch 2>/dev/null | sed s/"*"//g`; do
+        if [[ -n $(git log $REMOTE/$BRANCH..$BRANCH 2>/dev/null) ]]; then
+            BRANCHCOLOR="\e[01;31m"
+            BRANCHSTATUS="$BRANCHSTATUS *ahead of $REMOTE* "
+        fi
+        if [[ -n $(git log $BRANCH..$REMOTE/$BRANCH 2>/dev/null) ]]; then
+            BRANCHCOLOR="\e[01;31m"
+            BRANCHSTATUS="$BRANCHSTATUS *behind $REMOTE* "
+        fi
+    done
+done
 
-printf "$GITCOLOR%s $BRANCHCOLOR%s \e[m" $OUTPUT $BRANCHSTATUS
+printf "$GITCOLOR%s$BRANCHCOLOR%s \e[m" "$OUTPUT" "$BRANCHSTATUS"
