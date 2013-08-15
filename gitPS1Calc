@@ -12,18 +12,30 @@ fi
 OUTPUT="$(__git_ps1)"
 
 BRANCHSTATUS=""
+AHEADOF=""
+BEHIND=""
 BRANCHCOLOR=""
 for REMOTE in `git remote 2>/dev/null`; do
     for BRANCH in `git branch 2>/dev/null | sed s/"*"//g`; do
         if [[ -n $(git log $REMOTE/$BRANCH..$BRANCH 2>/dev/null) ]]; then
             BRANCHCOLOR="\e[01;31m"
-            BRANCHSTATUS="$BRANCHSTATUS *ahead of $REMOTE* "
+            AHEADOF="$AHEADOF$REMOTE,"
         fi
         if [[ -n $(git log $BRANCH..$REMOTE/$BRANCH 2>/dev/null) ]]; then
             BRANCHCOLOR="\e[01;31m"
-            BRANCHSTATUS="$BRANCHSTATUS *behind $REMOTE* "
+            BEHIND="$BEHIND$REMOTE,"
         fi
     done
 done
+
+BEHIND=$(echo $BEHIND | sed -r "s/\,$//")
+AHEADOF=$(echo $AHEADOF | sed -r "s/\,$//")
+
+if [[ -n $AHEADOF ]]; then
+    BRANCHSTATUS="$BRANCHSTATUS *ahead of $AHEADOF*"
+fi
+if [[ -n $BEHIND ]]; then
+    BRANCHSTATUS="$BRANCHSTATUS *behind $BEHIND*"
+fi
 
 printf "$GITCOLOR%s$BRANCHCOLOR%s \e[m" "$OUTPUT" "$BRANCHSTATUS"
