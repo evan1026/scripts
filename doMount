@@ -1,9 +1,22 @@
 #!/bin/bash
-if [ "$1" = "" ]; then
-    echo "Usage: `basename $0` <Drive Name>"
-    exit 1
-fi
 
-DRIVE=$(echo $1 | sed 's/ /\\x20/g')
+## --------------------------------------------------------------------
+## Disk mounter 1.0.0
+## 
+## This is free software: you are free to change and redistribute it.
+## There is NO WARRANTY, to the extent permitted by law.
+## --------------------------------------------------------------------
+
+### Mounts a drive with the given label.
+### Usage: doMount [options] <label>
+### 
+###       -h, --help     Show help options.
+###       -v, --version  Print program version.
+
+help=$(grep "^### " "$0" | cut -c 5-)
+version=$(grep "^## "  "$0" | cut -c 4-)
+eval "$(docopts -A args -h "$help" -V "$version" : "$@")"
+
+DRIVE=$(echo ${args[<label>]} | sed 's/ /\\x20/g')
 
 udisks --mount /dev/disk/by-label/$DRIVE

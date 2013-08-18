@@ -1,25 +1,28 @@
 #!/bin/bash
 
+## -------------------------------------------------------------------
+## Git Remote Updater 1.0.0
+## 
+## This is free software: you are free to change and redistribute it.
+## There is NO WARRANTY, to the extent permitted by law.
+## -------------------------------------------------------------------
+
+### Pushes all branches in all repos to a remote.
+### Usage: gitRemoteUpdate [options] <remote>
+### 
+###       -q, --quiet     Quiets output
+###       -i, --ignore  Ignores repos that are marked to be ignored
+###       -h, --help      Show help options.
+###       -v, --version   Print program version.
+
+help=$(grep "^### " "$0" | cut -c 5-)
+version=$(grep "^## "  "$0" | cut -c 4-)
+eval "$(docopts -A args -h "$help" -V "$version" : "$@")"
+
 . $(dirname $0)/scriptsConfig
 
-QUIET=0
-REMOTE=""
-DOIGNORE=0
 IGNORES=""
-for ARG in $@; do
-    if [[ $ARG = "-q" ]] || [[ $ARG = "--quiet" ]]; then
-        QUIET=1
-    elif [[ $ARG = "--doignore" ]] || [[ $ARG = "-i" ]]; then
-        DOIGNORE=1
-    elif [ -z $REMOTE ]; then
-        REMOTE=$ARG
-    else
-        echo "Usage: $0 [-qi] REMOTE"
-        exit 1
-    fi
-done
-
-if [ $DOIGNORE -eq 1 ]; then
+if ${args[--ignore]}; then
     if [[ -e $GITDIR/.autoUpdateIgnore ]]; then
         IGNORES=$(cat $GITDIR/.autoUpdateIgnore)
     else
@@ -36,15 +39,15 @@ cd $GITDIR
 for FILE in `ls`; do
     if [ -d $FILE ] && [[ -z $(echo $IGNORES | egrep "\b$FILE\b") ]]; then
         cd $FILE
-        if [ -e '.git' ] && [[ $(git remote) = *"$REMOTE"* ]]; then
+        if [ -e '.git' ] && [[ $(git remote) = *"${args[<remote>]}"* ]]; then
             for BRANCH in `git branch | sed s/"*"//g`; do
-                if [ $QUIET -eq 0 ]; then echo "Pushing branch $BRANCH in $FILE."; fi
-                OUTPUT=$(git push $REMOTE $BRANCH  2>&1)
+                if ! ${args[--quiet]}; then echo "Pushing branch $BRANCH in $FILE."; fi
+                OUTPUT=$(git push ${args[<remote>]} $BRANCH  2>&1)
                 if [ $? -ne 0 ]; then
-                    if [ $QUIET -eq 0 ]; then echo -e "\e[31m    ERROR: Pushing of $BRANCH in $FILE to $REMOTE failed.\e[m"; fi
+                    if ! ${args[--quiet]}; then echo -e "\e[31m    ERROR: Pushing of $BRANCH in $FILE to ${args[<remote>]} failed.\e[m"; fi
                 fi
                 if [[ $OUTPUT = *"->"* ]] && [[ $OUTPUT != *"[rejected]"* ]]; then
-                    if [ $QUIET -eq 0 ]; then echo -e "\e[36m    Pushed $BRANCH in $FILE to $REMOTE.\e[m"; fi
+                    if ! ${args[--quiet]}; then echo -e "\e[36m    Pushed $BRANCH in $FILE to ${args[<remote>]}.\e[m"; fi
                 fi
             done
         fi
