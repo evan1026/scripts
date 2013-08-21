@@ -11,7 +11,7 @@
 ### Usage: gitRemoteUpdate [options] <remote>
 ### 
 ###       -q, --quiet     Quiets output
-###       -i, --ignore  Ignores repos that are marked to be ignored
+###       -i, --ignore    Ignores repos that are marked to be ignored
 ###       -h, --help      Show help options.
 ###       -v, --version   Print program version.
 

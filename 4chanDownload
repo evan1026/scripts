@@ -19,7 +19,7 @@ eval "$(docopts -A args -h "$help" -V "$version" : "$@")"
 
 . $(dirname $0)/scriptsConfig
 
-LOC=$(echo "${args[<url>]}" | egrep -o '([0-9]*)$' )
+LOC=$(echo "${args[<url>]}" | egrep -o '[0-9]+$' )
 echo "Downloading to $CHANPICTUREDIR/$LOC"
 
 if [ ! -d $CHANPICTUREDIR/$LOC ]; then
@@ -32,13 +32,13 @@ while [ "1" = "1" ]; do
     TMP=`mktemp`
     TMP2=`mktemp`
 
-    wget -O "$TMP" "$1"
+    wget -O "$TMP" "${args[<url>]}"
     if [ "$?" != "0" ]; then
         rm $TMP $TMP2
         exit 1
     fi
 
-    egrep '//images.4chan.org/[a-z0-9]+/src/([0-9]*).(jpg|png|gif)' "$TMP" -o > "$TMP2"
+    egrep '//images.4chan.org/[a-zA-Z0-9]+/src/[0-9]+\.(jpg|png|gif)' "$TMP" -o > "$TMP2"
     cat "$TMP2" | sed 's/\/\//http:\/\//g' > "$TMP"
 
     wget -nc -i $TMP
