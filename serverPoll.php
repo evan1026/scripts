@@ -7,6 +7,6 @@
         $Query->Connect("ginto8.dyndns.org", 25565);
     }
     catch (MinecraftQueryException $e){
-        echo $e->getMessage();
+        //echo $e->getMessage();
     }
 ?>
