@@ -38,7 +38,7 @@ while [ "1" = "1" ]; do
         exit 1
     fi
 
-    egrep '//images.4chan.org/[a-zA-Z0-9]+/src/[0-9]+\.(jpg|png|gif)' "$TMP" -o > "$TMP2"
+    egrep '//i.4cdn.org/[a-zA-Z0-9]+/src/[0-9]+\.(jpg|png|gif)' "$TMP" -o > "$TMP2"
     cat "$TMP2" | sed 's/\/\//http:\/\//g' > "$TMP"
 
     wget -nc -i $TMP
