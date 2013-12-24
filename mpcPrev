@@ -1,0 +1,15 @@
+#!/bin/bash
+
+TIME=$(mpc status | grep -oE "[0-9]+\:[0-9]+" | head -n 1)
+
+MIN=$(echo $TIME | grep -oE "[0-9]+" | head -n 1)
+SEC=$(echo $TIME | grep -oE "[0-9]+" | tail -n 1)
+
+if [ $MIN == 0 ] && [ $SEC -lt 5 ]; then
+    mpc prev
+    notify-send "$(mpc current -f %title%)" "$(mpc current -f %artist%)"
+else
+    mpc prev
+    mpc next
+fi
+

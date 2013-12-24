@@ -1,0 +1,8 @@
+#!/bin/bash
+MPC=$(mpc status 2>/dev/null)
+
+if [[ $(echo $MPC | grep -oe "playing")  != "" ]]; then
+    mpc pause 2>/dev/null
+elif [[ $(echo $MPC | grep -oe "paused") != "" ]]; then
+    mpc play 2>/dev/null
+fi
