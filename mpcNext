@@ -1,4 +1,4 @@
 #!/bin/bash
 
-mpc next
-notify-send "$(mpc current -f %title%)" "$(mpc current -f %artist%)"
+mpc -h raspberrypi next
+mpcCurrent

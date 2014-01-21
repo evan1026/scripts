@@ -1,2 +1,2 @@
 #!/bin/bash
-notify-send "$(mpc current -f %title%)" "$(mpc current -f %artist%)"
+notify-send "$(mpc current -h raspberrypi -f %title%)" "$(mpc current -h raspberrypi -f %artist%)"

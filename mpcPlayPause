@@ -1,8 +1,8 @@
 #!/bin/bash
-MPC=$(mpc status 2>/dev/null)
+MPC=$(mpc -h raspberrypi status 2>/dev/null)
 
 if [[ $(echo $MPC | grep -oe "playing")  != "" ]]; then
-    mpc pause 2>/dev/null
+    mpc -h raspberrypi pause 2>/dev/null
 elif [[ $(echo $MPC | grep -oe "paused") != "" ]]; then
-    mpc play 2>/dev/null
+    mpc -h raspberrypi play 2>/dev/null
 fi
