@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/.scripts/git-sh-prompt
+. $(dirname $0)/git-sh-prompt
 
 GITCOLOR=""
 GITSTATUS=$(git status 2>/dev/null)
