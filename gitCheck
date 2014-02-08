@@ -26,7 +26,7 @@ for FILE in `ls`; do
     if [ -d $FILE ]; then
         cd $FILE
 
-        if [[ $(git status 2>/dev/null) != *"nothing to commit, working directory clean" ]]; then
+        if [[ $(git status 2>/dev/null) != *"working directory clean"* ]]; then
                 echo -e "\e[36m$FILE\e[m has \e[31muncommitted changes\e[m."
         fi
         if [[ -n $(git stash list) ]]; then
