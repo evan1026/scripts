@@ -35,7 +35,7 @@ for FILE in `ls`; do
 
         for REMOTE in `git remote`; do
             for BRANCH in `git branch | sed s/"*"//g`; do
-                if [[ -n $(git log $REMOTE/$BRANCH..$BRANCH) ]]; then
+                if [[ -n $(git log $REMOTE/$BRANCH..$BRANCH) ]] && [[ $(git remote show origin | grep "Push  URL:") != *"git://"* ]]; then
                     echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be pushed to \e[31m$REMOTE\e[m."
                 fi
                 if [[ -n $(git log $BRANCH..$REMOTE/$BRANCH) ]]; then
