@@ -20,13 +20,15 @@ version=$(grep "^## "  "$0" | cut -c 4-)
 eval "$(docopts -A args -h "$help" -V "$version" : "$@")"
 
 IGNORES=""
-for (( i = 0; i < ${args[--ignore-remote,#]}; i++ )); do
+for i in {0..${args[--ignore-remote],#}}; do
     IGNORES="$IGNORES ${args[--ignore-remote,$i]}"
 done
 
 . $(dirname $0)/scriptsConfig
 
 cd $GITDIR
+
+echo ${args[--quiet]}
 
 for FILE in `ls`; do
     if [ -d $FILE ]; then
@@ -35,9 +37,9 @@ for FILE in `ls`; do
             if [[ -n $RSAKEYLOC ]] && [[ $(ssh-add -l) != *"$HOME/.ssh/id_rsa"* ]]; then
                 ssh-add
             fi
-            if ${args[--quiet]}; then
-                git fetch --all --quiet 2>/dev/null
-            else
+ #           if ${args[--quiet]}; then
+ #               git fetch --all --quiet 2>/dev/null
+ #           else
                 for REMOTE in `git remote`; do
                     if [[ -z $(echo $IGNORES | egrep "\b$REMOTE\b") ]]; then
                         echo "Fetching remote $REMOTE in $FILE."
@@ -49,7 +51,7 @@ for FILE in `ls`; do
                         fi
                     fi
                 done
-            fi
+ #           fi
         fi
         cd ..
     fi

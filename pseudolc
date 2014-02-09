@@ -22,6 +22,6 @@ for (( i = 0; i < ${args[<file>,#]}; i++ )); do
     FILES="$FILES ${args[<file>,$i]}"
 done
 
-cat $FILES | sed -r "/^\s*\{*\}*\s*$/d" | wc -l
+cat $FILES | sed -nf $(dirname $0)/removeComments.sed | sed -r "/^\s*\{*\}*\s*$/d" | wc -l
 
 exit 0
