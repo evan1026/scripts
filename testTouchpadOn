@@ -1,0 +1,7 @@
+#!/bin/bash
+if [ $(synclient | grep TouchpadOff | sed -r "s/[^01]//g") == 1 ]; then
+    echo "Touchpad: off"
+else
+    echo "Touchpad: on"
+fi
+
