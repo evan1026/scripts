@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/opt/extras.ubuntu.com/indicator-brightness/indicator-brightness-adjust --down
