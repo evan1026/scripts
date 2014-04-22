@@ -1,0 +1,7 @@
+#!/bin/bash
+
+currBrightness=$(cat /sys/devices/platform/asus-nb-wmi/leds/asus::kbd_backlight/brightness)
+
+if [[ $currBrightness > 0 ]]; then
+    expr $currBrightness - 1 | tee /sys/devices/platform/asus-nb-wmi/leds/asus::kbd_backlight/brightness
+fi
