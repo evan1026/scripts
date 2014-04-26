@@ -28,7 +28,7 @@ done
 
 cd $GITDIR
 
-echo ${args[--quiet]}
+#echo ${args[--quiet]}
 
 for FILE in `ls`; do
     if [ -d $FILE ]; then
