@@ -1,4 +1,22 @@
 #!/bin/bash
+
+## -------------------------------------------------------------------
+## Touchpad enabled status tester 1.0.0
+## 
+## This is free software: you are free to change and redistribute it.
+## There is NO WARRANTY, to the extent permitted by law.
+## -------------------------------------------------------------------
+
+### Tests to see if the touchpad is enabled
+### Usage: testTouchpadOn
+### 
+###       -h, --help     Show help options.
+###       -v, --version  Print program version.
+
+help=$(grep "^### " "$0" | cut -c 5-)
+version=$(grep "^## "  "$0" | cut -c 4-)
+eval "$(docopts -A args -h "$help" -V "$version" : "$@")"
+
 if [[ $(synclient | grep TouchpadOff | sed -r "s/[^01]//g") == 1 ]]; then
     echo "Touchpad: off"
 else

@@ -42,9 +42,9 @@ while [ "1" = "1" ]; do
     cat "$TMP2" | sed 's/\/\//http:\/\//g' > "$TMP"
 
     wget -nc -i $TMP
- 
+
     rm $TMP $TMP2
- 
+
     echo "Waiting 15 seconds before next run"
     sleep 15
 done;
