@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ $(xset q | egrep "Scroll Lock\: (on|off)" -o | sed "s/Scroll Lock\: //") == "on" ]]; then
+    xset -led named "Scroll Lock"
+else
+    xset led named "Scroll Lock"
+fi
