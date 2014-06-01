@@ -35,15 +35,23 @@ for FILE in `ls`; do
 
         for REMOTE in `git remote`; do
             for BRANCH in `git branch | sed s/"*"//g`; do
-                if [[ -n $(git log $REMOTE/$BRANCH..$BRANCH) ]] && [[ $(git remote show origin | grep "Push  URL:") != *"git://"* ]]; then
-                    echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be pushed to \e[31m$REMOTE\e[m."
+                if [[ -n $(git log $REMOTE/$BRANCH..$BRANCH) ]]; then
+                    if [[ $(git ls-remote $REMOTE >/dev/null 2>&1; echo $?) = 0 ]]; then                         #Basically, if we can query the remote then...
+                        if [[ $(git remote show $REMOTE | grep "Push  URL:") != *"git://"* ]]; then              #Check remote info after querying
+                            echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be pushed to \e[31m$REMOTE\e[m." #And do stuff based on that
+                        fi
+                    else                                                                                         #And if we can't....
+                        if [[ $(git remote show -n $REMOTE | grep "Push  URL:") != *"git://"* ]]; then           #Check the cached remote info
+                            echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be pushed to \e[31m$REMOTE\e[m." #And do stuff based on that instead
+                        fi
+                    fi
                 fi
                 if [[ -n $(git log $BRANCH..$REMOTE/$BRANCH) ]]; then
                     echo -e "\e[36m$FILE\e[m needs \e[31m$BRANCH\e[m to be merged from \e[31m$REMOTE\e[m."
                 fi
             done
         done
-       
+
         cd ..
     fi
 done
