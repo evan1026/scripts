@@ -42,7 +42,7 @@ for FILE in `ls`; do
         if [ -e '.git' ] && [[ $(git remote) = *"${args[<remote>]}"* ]]; then
             for BRANCH in `git branch | sed s/"*"//g`; do
                 if ! ${args[--quiet]}; then echo "Pushing branch $BRANCH in $FILE."; fi
-                OUTPUT=$(git push ${args[<remote>]} $BRANCH  2>&1)
+                OUTPUT="$(git push --tags ${args[<remote>]} 2>&1) $(git push ${args[<remote>]} $BRANCH  2>&1)"
                 if [ $? -ne 0 ]; then
                     if ! ${args[--quiet]}; then echo -e "\e[31m    ERROR: Pushing of $BRANCH in $FILE to ${args[<remote>]} failed.\e[m"; fi
                 fi
