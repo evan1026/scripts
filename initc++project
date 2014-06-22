@@ -1,0 +1,62 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+    echo "Must be run with a project name"
+    exit 1
+fi
+
+git init
+
+cat > .gitignore << EOF
+build/*
+*.swp
+EOF
+
+mkdir src
+mkdir build
+
+cat > CMakeLists.txt << EOF
+cmake_minimum_required(VERSION 2.8)
+
+project($1)
+
+set(SOURCE_DIR "src")
+
+set(CMAKE_MODULE_PATH "/usr/local/share/Logger/;/usr/local/share/MiscUtils/;/usr/local/share/SFML/cmake/Modules;\${CMAKE_MODULE_PATH}")
+
+set(EXECUTABLE_NAME "$1")
+
+add_executable(\${EXECUTABLE_NAME}
+               \${SOURCE_DIR}/main.cpp)
+
+find_package(Logger REQUIRED)
+target_link_libraries(\${EXECUTABLE_NAME} Logger)
+
+find_package(MiscUtils REQUIRED)
+target_link_libraries(\${EXECUTABLE_NAME} MiscUtils)
+EOF
+
+cat > src/main.cpp << EOF
+#include <Logger/Logger.hpp>
+#include <MiscUtils/MiscUtils.hpp>
+#include "main.hpp"
+
+Logger logger;
+
+int main(int argv, char* argc[]){
+
+}
+EOF
+
+cat > src/main.hpp << EOF
+#ifndef MAIN_HPP
+#define MAIN_HPP
+
+int main(int argv, char* argc[]);
+
+#endif
+EOF
+
+cd build
+
+cmake ..
