@@ -6,6 +6,14 @@ if [ -z $1 ]; then
 fi
 
 git init
+git remote add hdd /media/Git\ Backups/$1\.git
+
+if [ -e /media/Git\ Backups ]; then
+    mkdir /media/Git\ Backups/$1\.git
+    cd /media/Git\ Backups/$1\.git
+    git init --bare
+    cd -
+fi
 
 cat > .gitignore << EOF
 build/*
@@ -19,6 +27,8 @@ cat > CMakeLists.txt << EOF
 cmake_minimum_required(VERSION 2.8)
 
 project($1)
+
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall \${CMAKE_CXX_FLAGS}")
 
 set(SOURCE_DIR "src")
 
