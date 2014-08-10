@@ -4,7 +4,7 @@
     $Query = new MinecraftQuery();
 
     try {
-        $Query->Connect("ginto8.dyndns.org", 25565);
+        $Query->Connect("ginto8.noip.me", 25565);
     }
     catch (MinecraftQueryException $e){
         //echo $e->getMessage();
