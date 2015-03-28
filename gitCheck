@@ -23,7 +23,7 @@ eval "$(docopts -A args -h "$help" -V "$version" : "$@")"
 cd $GITDIR
 
 for FILE in `ls`; do
-    if [ -d $FILE ]; then
+    if [[ -d $FILE && -d $FILE/.git ]]; then
         cd $FILE
 
         if [[ $(git status 2>/dev/null) != *"working directory clean"* ]]; then
