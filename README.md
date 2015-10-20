@@ -1,7 +1,7 @@
 scripts
 =======
 
-Just some scripts I made for myself that I decided to throw up onto this site for lulz. Feel free to comment or whatever or steal these for personal use.
+Just some scripts I made for myself that I decided to throw up onto this site for convenience. Feel free to comment or whatever or steal these for personal use.
 
 =======
 
@@ -58,4 +58,4 @@ Feel free to contact me or whatever about anything with this, especially if you 
 
 Here's a cool screenshot of `gitCheck` in action:
 
-![gitCheck doin it's shiz](https://dl.dropboxusercontent.com/u/16835571/Pictures/2013-07-14-025201_397x139_scrot.png)
+![gitCheck in action](https://dl.dropboxusercontent.com/u/16835571/Pictures/2013-07-14-025201_397x139_scrot.png)
