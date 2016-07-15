@@ -1,25 +1,38 @@
 #!/bin/bash
 
 ## -------------------------------------------------------------------
-## Tmux creater/attacher 1.0.0
+## Tmux creater/attacher 1.1.0
 ## 
 ## This is free software: you are free to change and redistribute it.
 ## There is NO WARRANTY, to the extent permitted by law.
 ## -------------------------------------------------------------------
 
 ### Attaches to the given tmux session, creating it if it doesn't exist.
-### Usage: tmuxt [options] <name>
+### Usage:
+###     tmuxt [options]
+###     tmuxt <name>
 ### 
-###       -h, --help     Show help options.
-###       -v, --version  Print program version.
+### Options
+###     -h, --help     Show help options.
+###     -v, --version  Print program version.
+### 
+### If no name is supplied, "default" is used
 
 help=$(grep "^### " "$0" | cut -c 5-)
 version=$(grep "^## "  "$0" | cut -c 4-)
 eval "$(docopts -A args -h "$help" -V "$version" : "$@")"
 
-if [[ -z $(tmux ls | grep "^${args[<name>]}:") ]]; then
-    tmux new -s ${args[<name>]}
+if [[ "${args[<name>]}" != "" ]]; then
+    name="${args[<name>]}"
 else
-    tmux at -t ${args[<name>]}
+    name="default"
+fi
+
+echo $name
+
+if [[ -z $(tmux ls | grep "^$name:") ]]; then
+    tmux new -s $name
+else
+    tmux at -t $name
 fi
 
