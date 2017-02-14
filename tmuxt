@@ -31,8 +31,9 @@ fi
 echo $name
 
 if [[ -z $(tmux ls | grep "^$name:") ]]; then
-    tmux new -s $name
+    TERM=xterm-256color tmux new -s $name
+
 else
-    tmux at -t $name
+    TERM=xterm-256color tmux at -t $name
 fi
 
