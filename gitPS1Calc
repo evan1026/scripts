@@ -19,11 +19,11 @@ for REMOTE in `git remote 2>/dev/null`; do
     for BRANCH in `git branch 2>/dev/null | sed s/"*"//g`; do
         if [[ -n $(git log $REMOTE/$BRANCH..$BRANCH 2>/dev/null) ]]; then
             BRANCHCOLOR="\e[01;31m"
-            AHEADOF="$AHEADOF$REMOTE,"
+            AHEADOF="$AHEADOF$REMOTE/$BRANCH,"
         fi
         if [[ -n $(git log $BRANCH..$REMOTE/$BRANCH 2>/dev/null) ]]; then
             BRANCHCOLOR="\e[01;31m"
-            BEHIND="$BEHIND$REMOTE,"
+            BEHIND="$BEHIND$REMOTE/$BRANCH,"
         fi
     done
 done
