@@ -1,0 +1,95 @@
+#!/bin/bash
+
+#
+# This script goes through all paths that are modified/not added (anything
+# that shows up in `git status` that isn't staged), prints out a diff for
+# each one, and then prompts you for whether you want to stage those changes.
+# You can optionally provide a folder to work on as the first argument
+#
+
+
+function do_status() {
+    folder="$1"
+
+    if [ -z "$folder" ]; then
+        folder="$(git rev-parse --show-toplevel)"
+    fi
+
+    local IFS=$'\n'
+    entries=($(git status "$folder" --porcelain=2))
+    unset IFS
+
+    for ((i = 0; i < ${#entries[@]}; i++)); do
+        handle_line ${entries[$i]}
+    done
+}
+
+function handle_line() {
+    modification_type="$1"
+    shift
+
+    case $modification_type in
+        1)  handle_changed $@
+            ;;
+        2)  handle_renamed $@
+            ;;
+        u)  handle_unmerged $@
+            ;;
+        ?)  handle_untracked $@
+            ;;
+        *)  echo UNKNOWN MODIFICATION TYPE \"$modification_type\"
+    esac
+}
+
+function handle_changed() {
+    change_type="$1"
+    before=${change_type:0:1}
+    after=${change_type:1:1}
+
+    path="$8"
+
+    if [[ "$after" != "." ]]; then
+        normal_diff "$path"
+    fi
+}
+
+function handle_renamed() {
+    change_type="$1"
+    before=${change_type:0:1}
+    after=${change_type:1:1}
+
+    path="$9"
+    orig_path="${10}"
+
+    if [[ "$after" != "." ]]; then
+        normal_diff "$path"
+    fi
+}
+
+function handle_unmerged() {
+    path="${10}"
+    normal_diff "$path"
+}
+
+function handle_untracked() {
+    untracked_diff "$1"
+}
+
+function normal_diff() {
+    git diff -- "$1"
+    prompt_to_stage "$1"
+}
+
+function untracked_diff() {
+    git diff /dev/null "$1"
+    prompt_to_stage "$1"
+}
+
+function prompt_to_stage() {
+    read -r -p "Add to staging area? [y/N] " response
+    if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        git add "$1"
+    fi
+}
+
+do_status $@
