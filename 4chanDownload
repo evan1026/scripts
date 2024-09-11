@@ -23,7 +23,7 @@ LOC=$(echo "${args[<url>]}" | egrep -o '\/thread\/[0-9]+' | egrep -o '[0-9]+' )
 echo "Downloading to $CHANPICTUREDIR/$LOC"
 
 if [ ! -d $CHANPICTUREDIR/$LOC ]; then
-    mkdir $CHANPICTUREDIR/$LOC
+    mkdir -p $CHANPICTUREDIR/$LOC
 fi
 
 cd $CHANPICTUREDIR/$LOC
