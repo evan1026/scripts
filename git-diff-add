@@ -34,7 +34,7 @@ function do_status() {
     fi
 
     local IFS=$'\n'
-    entries=($(git status "$folder" --porcelain=2))
+    entries=($(git status -u "$folder" --porcelain=2))
     unset IFS
 
     for ((i = 0; i < ${#entries[@]}; i++)); do
